@@ -36,9 +36,23 @@ class DisjointSetUnion:
 def process_single_edge(
     edge: Edge,
     dsu: DisjointSetUnion,
-    minimum_spanning_tree_edges: List[Edge],
+    minimum_spanning_tree_edges: Graph,
     current_total_cost: int
 ) -> Tuple[int, bool]:
+    """
+    Determines whether or not an edge should be added to the mst and adds it if it should be. Modifies minimum_spanning_tree_edges
+    
+    :param edge: Edge to decide if should be added to MST
+    :type edge: Edge
+    :param dsu: Disjoing set union for the graph
+    :type dsu: DisjointSetUnion
+    :param minimum_spanning_tree_edges: The current minimum spanning tree of the graph. Modified by the function
+    :type minimum_spanning_tree_edges: Graph
+    :param current_total_cost: Current sum of weights of all included edges in the mst
+    :type current_total_cost: int
+    :return: The current totalt cost and whether or not an edge was added
+    :rtype: Tuple[int, bool]
+    """
     source, destination, weight = edge
 
     if dsu.find(source) != dsu.find(destination):
@@ -51,9 +65,9 @@ def process_single_edge(
 
 def kruskal_minimum_spanning_tree(
     vertex_count: int,
-    edges: List[Edge]
-) -> Tuple[int, List[Edge]]:
-    edges_sorted: List[Edge] = sorted(edges, key=lambda e: e[2])
+    edges: Graph
+) -> Tuple[int, Graph]:
+    edges_sorted: Graph = sorted(edges, key=lambda e: e[2])
 
     dsu = DisjointSetUnion(vertex_count)
     minimum_spanning_tree_edges: List[Edge] = []
