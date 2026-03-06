@@ -1,12 +1,6 @@
 import pygame
 import json
 
-# Return of the king...
-def intet():
-    pass
-
-
-
 # INFO-Klasser
 
 class UI_info():                                                        # Basisklasse for alle info og udvidelsesklasser til et komponent.
@@ -72,14 +66,14 @@ class UI_component_text(UI_info):
         screen.blit(text_surface, (self.component.rect.x  + (0.5 * (self.component.rect.width - self.text_rect.width)), self.component.rect.y + self.component.rect.height * 0.2))
 
 class UI_button_extension(UI_info):
-    def __init__(self, component, function : str = "intet"):
-        self.function = function
+    def __init__(self, component, function_id : str = "intet"):
+        self.function_id = function_id
         self.component = component
 
     def event_handling(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.component.rect.collidepoint(event.pos):
-                fcunt = map(self.function, function_map)
+                fcunt = function_map.get(self.function_id, intet)
                 fcunt()
 
     def update(self):
@@ -99,7 +93,6 @@ class UI_component:                                         # Basisklasse for al
         self.button = UI_info()
         self.parent_box = parent_box
         self.rect = pygame.Rect(0, 0, 10, 10)
-        self.drawing_method = None
         self.visible = visible
         if visible:
             self.drawing_method = self.drawing_helper_visible
@@ -111,15 +104,16 @@ class UI_component:                                         # Basisklasse for al
             self.color_info = self.parent_box.color_info
 
     def update(self):
-        self.color_info.update()
-        self.placement_info.update()
+        #self.color_info.update()
+        #self.placement_info.update()
         self.text.update()
-        self.button.update()
+        if self.button != None:
+            self.button.update()
 
     def event_handling(self, event):
         self.button.event_handling(event)
 
-    def draw_visible(self, screen):
+    def draw_visible(self, screen : pygame.Surface):
         if not isinstance(self.color_info, UI_component_color_info):
            color_source = self.parent_box.color_info.secondary_color
            accent_color = self.parent_box.color_info.accent_color
@@ -136,7 +130,7 @@ class UI_component:                                         # Basisklasse for al
             pygame.draw.rect(screen, color_source, self.rect)
         self.text.draw(screen)
 
-    def draw_invisible(self, screen):
+    def draw_invisible(self, screen : pygame.Surface):
         self.text.draw(screen)
 
     def drawing_helper_invisible(self):
@@ -145,7 +139,7 @@ class UI_component:                                         # Basisklasse for al
     def drawing_helper_visible(self):
         self.draw_visible(self.screen)
 
-    def draw(self, screen):
+    def draw(self, screen : pygame.Surface):
        self.screen = screen
        self.drawing_method()
 
@@ -214,7 +208,7 @@ class screen_box (UI_element):                                       # En boks p
 
     def place_component(self, component, automatic_button_index):       # sætter x og y positionen for en knap baseret på dens placering KUN i forhold til andre af dens type.
                                                                         # Bredden og højden beregnes af screen_boxen, da dette er lettere.
-        if isinstance(component.placement_info, UI_component_placement_info):   # Component er en knap med manuel layout info.
+        if component.placement_info != None:   # Component er en knap med manuel layout info.
 
             if component.placement_info.anchor_x == "center":
                 component.rect.x = self.rect.x + (self.rect.width - component.placement_info.width) * 0.5 + component.placement_info.x
@@ -227,17 +221,17 @@ class screen_box (UI_element):                                       # En boks p
                 component.rect.y = self.rect.y + component.placement_info.y
 
         else:
-            if isinstance(component.button, UI_button_extension):
+            if component.button != None:
                 button_height = component.rect.height
                 button_width = component.rect.width
                 component.rect.x = self.rect.x + self.border_width + automatic_button_index * (button_width + self.border_width)
                 component.rect.y = self.rect.y + self.rect.height - self.border_width - button_height
 
-            elif isinstance(component, label):
-                component.rect.x = self.rect.x + self.border_width
-                component.rect.y = self.rect.y + self.border_width
-                component.rect.width = self.rect.width - self.border_width * 2
-                component.rect.height = self.rect.height - (self.border_width * 2 + 40 * 1.2) # 40 er standarden for knaphøjde. TODO: Gør dette dynamisk baseret på screen_boxens højde.
+            #elif isinstance(component, label):
+            #    component.rect.x = self.rect.x + self.border_width
+            #    component.rect.y = self.rect.y + self.border_width
+            #    component.rect.width = self.rect.width - self.border_width * 2
+            #    component.rect.height = self.rect.height - (self.border_width * 2 + 40 * 1.2) # 40 er standarden for knaphøjde. TODO: Gør dette dynamisk baseret på screen_boxens højde.
     
     def place_all_components(self):
         self.count_buttons()
@@ -245,7 +239,7 @@ class screen_box (UI_element):                                       # En boks p
 
         for container in self.components:
 
-            if not isinstance(container.placement_info, UI_component_placement_info):
+            if container.placement_info == None:
                 if isinstance(container.button, UI_button_extension):    # Automatisk placeret knap.
                     container.rect.width = (self.rect.width - self.border_width * (self.number_of_buttons + 1)) / self.number_of_buttons
                     container.rect.height = 40 # Standard højde for knapper. TODO: Gør dette dynamisk baseret på screen_boxens højde.
@@ -261,8 +255,8 @@ class screen_box (UI_element):                                       # En boks p
             self.place_component(container, automatic_button_index - 1)  # -1 fordi indexet er blevet forøget efter placeringen af knappen.
                 
     def move(self, x, y):
-        self.screen_position_x = x - self.rect.width * 0.5
-        self.screen_position_y = y - self.rect.height * 0.5
+        self.screen_position_x = int(x - self.rect.width * 0.5)
+        self.screen_position_y = int(y - self.rect.height * 0.5)
         self.rect.topleft = (self.screen_position_x, self.screen_position_y)
         self.place_all_components()
 
@@ -281,7 +275,6 @@ class screen_box (UI_element):                                       # En boks p
         # Alle andre UI-komponenter arrangeres lodret i toppen af boksen, og der kan scrolles gennem dem.
         for container in self.components:
             container.draw(screen)
-
 
 class dropdown(screen_box):
     def __init__(self, placement : UI_component_placement_info, color : UI_component_color_info):
@@ -302,7 +295,7 @@ main_menu =  {
             "placement_info": None,
             "text": "Afslut",
             "text_size": None,
-            "button_function": "quit"
+            "button_function_id": "afslut"
         },
             {
             "color_info": None,
@@ -310,7 +303,7 @@ main_menu =  {
             "placement_info": None,
             "text": "Spil",
             "text_size": None,
-            "button_function": "start"
+            "button_function_id": "start"
         },
             {
             "color_info": [ 255, 255, 255, 43, 80, 170, 79, 168, 111 ],
@@ -318,7 +311,7 @@ main_menu =  {
             "placement_info": [ 0, 20, 140, 0, "center", "Askeslaske" ],
             "text": "Das Spiel",
             "text_size": 60,
-            "button_function": None
+            "button_function_id": None
         },
             {
             "color_info": None,
@@ -326,7 +319,7 @@ main_menu =  {
             "placement_info": [ 0, 100, 140, 0, "center", "Askeslaske" ],
             "text": "Das spiel, der Übermenschen",
             "text_size": 26,
-            "button_function": None
+            "button_function_id": None
         },
             {
             "color_info": None,
@@ -334,7 +327,15 @@ main_menu =  {
             "placement_info": [ 0, 130, 140, 0, "center", "Askeslaske" ],
             "text": "Skabt af Jacob, Aske og Louis",
             "text_size": 15,
-            "button_function": None
+            "button_function_id": None
+        },
+            {
+            "color_info": None,
+            "visible": True,
+            "placement_info": None,
+            "text": "Skift menu",
+            "text_size": None,
+            "button_function_id": "skift_menu"
         }
         ]
     },
@@ -346,10 +347,26 @@ main_menu =  {
                 "color_info": None,
                 "visible": True,
                 "placement_info": None,
-                "text": "knap0",
+                "text": "Afslut",
                 "text_size": None,
-                "button_function": "quit"
-            }
+                "button_function_id": "afslut"
+            },
+                {
+                "color_info": None,
+                "visible": True,
+                "placement_info": None,
+                "text": "Skift Menu",
+                "text_size": 20,
+                "button_function_id": "skift_menu"
+            },
+                {
+            "color_info": None,
+            "visible": True,
+            "placement_info": [ 0, 20, 140, 0, "center", "Askeslaske" ],
+            "text": "Hej Mark Moore!",
+            "text_size": 40,
+            "button_function_id": None
+        }
         ]
     }
 }
@@ -358,17 +375,45 @@ main_menu =  {
 #with open("menu.json", "w", encoding="utf-8") as f:
 #    json = json.dump(main_menu, f, indent=4)
 
+# Return of the king...
+def intet():
+    pass
+
+
+class Game():
+    def __init__(self):
+        self.running = True
+        self.active_menu = 0
+
+    def afslut(self):
+        self.running = False
+
+game = Game()
+
+def start():
+    running = True
+
+def afslut():
+    game.running = False
+
+def skift_menu():
+    if game.active_menu < 1:
+        game.active_menu = 1
+    else:
+        game.active_menu = 0
+
 function_map = {
-    "quit": quit,
+    "afslut": afslut,
     "start": start,
     "intet": intet,
+    "skift_menu": skift_menu,
     "null": None
 }
 
 menus = []
 
-def create_menu_from_json(json_data : dict, menu_index : int, local_function_map) -> screen_box:
-    json_data = json_data[f"{menu_index}-screen_box"]
+def create_menu_from_json(json_data : dict, menu_index : int) -> screen_box:
+    json_data = json_data[f"{menu_index}"]
     placement_info = UI_component_placement_info(
         json_data["placement_info"][0],
         json_data["placement_info"][1],
@@ -412,15 +457,18 @@ def create_menu_from_json(json_data : dict, menu_index : int, local_function_map
                 index_component["placement_info"][4],
                 index_component["placement_info"][5]
             )
+        else:
+            component_placement = None
+
         if index_component["text"] != None:
                 component_text = index_component["text"]
 
         if index_component["text_size"] != None:
             component_text_size = int(index_component["text_size"])
 
-        if index_component["button_function"] != None:
-            func_key = index_component["button_function"]
-            func_key = local_function_map.get(func_key, None)
+        if index_component["button_function_id"] != None:
+            func_key = index_component["button_function_id"]
+            ## func_key = local_function_map.get(func_key, None)
         else:
             func_key = None
 
@@ -451,12 +499,12 @@ def create_json_from_menu(output : str, menu : screen_box) -> dict:
 
     # Komponenter
     for component in menu.components:
-        menu_dict["components"][component]["color_info"]
+        menu_dict["components"][component]["color_info"] = menu.components[component].color_info
         menu_dict["components"][component]["visible"] = menu.components[component].visible
-        menu_dict["components"][component]["placement_info"] = 
+        menu_dict["components"][component]["placement_info"] = menu.components[component].placement_info
         menu_dict["components"][component]["text"] = menu.components[component].text.text
         menu_dict["components"][component]["text_size"] = menu.components[component].text.size
-        menu_dict["components"][component]["button_function"] = menu.components[component].button.function
+        menu_dict["components"][component]["button_function_id"] = menu.components[component].button.function_id
     
     try:
         with open(output, "w", encoding="utf-8") as f:
@@ -465,3 +513,44 @@ def create_json_from_menu(output : str, menu : screen_box) -> dict:
     except:
         print("Du er en mongol!")
         return menu_dict
+
+
+if __name__ == "__main__":
+
+
+    with open("menu.jacob", "w", encoding = "utf-8") as f:
+        json.dump(main_menu, f, indent = 4)
+
+    with open("menu.jacob", "r", encoding = "utf-8") as f:
+        main_menu = json.load(f)
+    
+    pygame.init()
+    pygame.font.init()
+
+    current_menu = game.active_menu
+
+    for i in range(2):
+        menus.append(create_menu_from_json(main_menu, i))
+
+    screen = pygame.display.set_mode((1600, 800))
+
+    while game.running == True:
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game.running = False
+            menus[0].event_handler(event)
+
+        if current_menu != game.active_menu:
+            current_menu = game.active_menu
+
+        screen.fill((30, 144, 255))  # Dodger blue
+        menus[current_menu].update()
+        menus[current_menu].draw(screen)
+
+        pygame.display.flip()
+    pygame.quit()
+
+
+    
