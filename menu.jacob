@@ -12,6 +12,109 @@
             0
         ],
         "placement_info": [
+            800,
+            400,
+            600,
+            400,
+            "center",
+            "center"
+        ],
+        "components": [
+            {
+                "color_info": null,
+                "visible": true,
+                "placement_info": null,
+                "text": "luk",
+                "text_size": null,
+                "button_function_id": "toggle_esc_menu"
+            },
+            {
+                "color_info": null,
+                "visible": true,
+                "placement_info": null,
+                "text": "Gem menulayout",
+                "text_size": null,
+                "button_function_id": "gem_menu"
+            },
+            {
+                "color_info": null,
+                "visible": true,
+                "placement_info": null,
+                "text": "Afslut",
+                "text_size": null,
+                "button_function_id": "afslut"
+            },
+            {
+                "color_info": [
+                    255,
+                    255,
+                    255,
+                    130,
+                    130,
+                    130,
+                    100,
+                    50,
+                    50
+                ],
+                "visible": false,
+                "placement_info": [
+                    0,
+                    -40,
+                    300,
+                    150,
+                    "center",
+                    "center"
+                ],
+                "text": "Menu",
+                "text_size": 80,
+                "button_function_id": null
+            }
+        ]
+    },
+    "1": {
+        "color_info": [
+            0,
+            102,
+            97,
+            16,
+            106,
+            34,
+            209,
+            173,
+            0
+        ],
+        "placement_info": [
+            600,
+            200,
+            600,
+            300,
+            "center",
+            "center"
+        ],
+        "components": [
+            {
+                "color_info": null,
+                "visible": true,
+                "placement_info": null,
+                "text": "Afslut",
+                "text_size": null,
+                "button_function_id": "afslut_promt"
+            }
+        ]
+    },
+    "3": {
+        "color_info": [
+            0,
+            102,
+            97,
+            16,
+            106,
+            34,
+            209,
+            173,
+            0
+        ],
+        "placement_info": [
             600,
             200,
             600,
@@ -109,7 +212,7 @@
             }
         ]
     },
-    "1": {
+    "4": {
         "color_info": [
             200,
             80,
@@ -134,9 +237,9 @@
                 "color_info": null,
                 "visible": true,
                 "placement_info": null,
-                "text": "Afslut",
+                "text": "menu",
                 "text_size": null,
-                "button_function_id": "afslut"
+                "button_function_id": "toggle_esc_menu"
             },
             {
                 "color_info": null,

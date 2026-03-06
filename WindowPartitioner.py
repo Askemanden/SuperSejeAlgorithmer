@@ -289,7 +289,62 @@ class dropdown(screen_box):
 # JSON
 
 main_menu =  {
+    # Esc-menu
     "0": {
+        "color_info": [ 0, 102, 97, 16, 106, 34, 209, 173, 0 ],
+        "placement_info": [ 800, 400, 600, 400, "center", "center" ],
+        "components": [
+            {
+            "color_info": None,
+            "visible": True,
+            "placement_info": None,
+            "text": "luk",
+            "text_size": None,
+            "button_function_id": "toggle_esc_menu"
+        },
+            {
+            "color_info": None,
+            "visible": True,
+            "placement_info": None,
+            "text": "Gem menulayout",
+            "text_size": None,
+            "button_function_id": "gem_menu"
+        },
+            {
+            "color_info": None,
+            "visible": True,
+            "placement_info": None,
+            "text": "Afslut",
+            "text_size": None,
+            "button_function_id": "afslut"
+        },
+            {
+            "color_info": [255, 255, 255, 130, 130, 130, 100, 50, 50],
+            "visible": False,
+            "placement_info": [0, -40, 300, 150, "center", "center"],
+            "text": "Menu",
+            "text_size": 80,
+            "button_function_id": None
+        }
+        ]
+    },
+    
+    "1": {
+        "color_info": [ 0, 102, 97, 16, 106, 34, 209, 173, 0 ],
+        "placement_info": [ 600, 200, 600, 300, "center", "center" ],
+        "components": [
+            {
+            "color_info": None,
+            "visible": True,
+            "placement_info": None,
+            "text": "Afslut",
+            "text_size": None,
+            "button_function_id": "afslut_promt"
+        }
+        ]
+    },
+    
+    "3": {
         "color_info": [ 0, 102, 97, 16, 106, 34, 209, 173, 0 ],
         "placement_info": [ 600, 200, 600, 300, "center", "center" ],
         "components": [
@@ -351,7 +406,7 @@ main_menu =  {
         }
         ]
     },
-    "1": {
+    "4": {
         "color_info": [ 200, 80, 160, 120, 160, 180, 134, 189, 0 ],
         "placement_info": [800, 200, 600, 300, "center", "center" ],
         "components": [
@@ -359,9 +414,9 @@ main_menu =  {
                 "color_info": None,
                 "visible": True,
                 "placement_info": None,
-                "text": "Afslut",
+                "text": "menu",
                 "text_size": None,
-                "button_function_id": "afslut"
+                "button_function_id": "toggle_esc_menu"
             },
                 {
                 "color_info": None,
@@ -398,8 +453,16 @@ def intet():
 class Game():
     def __init__(self):
         self.running = True
+        self.esc_menu = False
+
         self.active_menu = 0
 
+        self.menus = []
+        self.HUD_elements = []
+        self.esc_menu_elements = []
+
+    def save_menu_layout(self):
+        print("menuer gemt")
     def afslut(self):
         self.running = False
 
@@ -422,11 +485,13 @@ def gem_menu():
     pass
 
 def flyt():
-    menus[game.active_menu].move(1300, 600)
+    game.menus[game.active_menu].move(1300, 600)
 
 def tilføj_knap():
-    menus[game.active_menu].create_UIcomponent(None, None, "Yay", None, "afslut")
+    game.menus[game.active_menu].create_UIcomponent(None, None, "Yay", None, "afslut")
 
+def toggle_esc_menu():
+    game.esc_menu = not game.esc_menu
 
 function_map = {
     "afslut": afslut,
@@ -436,10 +501,10 @@ function_map = {
     "flyt" : flyt,
     "tilføj_knap": tilføj_knap,
     "gem_menu" : gem_menu,
+    "toggle_esc_menu": toggle_esc_menu,
+    "gem_menu": game.save_menu_layout,
     "null": None
 }
-
-menus = []
 
 def create_menu_from_json(json_data : dict, menu_index : int) -> screen_box:
     json_data = json_data[f"{menu_index}"]
@@ -558,8 +623,14 @@ if __name__ == "__main__":
 
     current_menu = game.active_menu
 
+    # Populate menus
     for i in range(2):
-        menus.append(create_menu_from_json(main_menu, i))
+        game.menus.append(create_menu_from_json(main_menu, i + 3))
+
+    game.esc_menu_elements.append(create_menu_from_json(main_menu, 0))
+
+    #game.HUD_elements.append(create_menu_from_json(main_menu, 1))
+
 
     screen = pygame.display.set_mode((1600, 800))
 
@@ -570,11 +641,35 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game.running = False
-            menus[current_menu].event_handler(event)
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                game.esc_menu = not game.esc_menu
+            
+            if game.esc_menu != True:
+                game.menus[current_menu].event_handler(event)
+                for elements in game.HUD_elements:
+                    game.HUD_elements[elements].event_handler(event)
+            else:
+                # Opdaterer pausemenuen
+                for element in range (len(game.esc_menu_elements)):
+                    game.esc_menu_elements[element].event_handler(event)
+
+        if game.esc_menu != False:
+            #opdaterer og håndterer pausemenuen.
+            for i in range(len(game.esc_menu_elements)):
+                game.esc_menu_elements[i].update()
+                game.esc_menu_elements[i].draw(screen)
+            pygame.display.flip()
+            continue
+
 
         screen.fill((30, 144, 255))  # Dodger blue
-        menus[current_menu].update()
-        menus[current_menu].draw(screen)
+        game.menus[current_menu].update()
+        game.menus[current_menu].draw(screen)
+
+        for elements in game.HUD_elements:
+            game.HUD_elements[elements].update()
+            game.HUD_elements[elements].draw(screen)
+
 
         pygame.display.flip()
     pygame.quit()
