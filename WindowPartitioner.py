@@ -36,15 +36,17 @@ class UI_component_color_info(UI_info):
 class UI_component_text(UI_info):
     def __init__(self, component, text = "Hej verden", size = 20):
         self.component = component
-        
         self.text = text
-        self.size = size
+        if size != None:
+            self.size = size
+        else:
+            self.size = 20
         self.font = pygame.font.SysFont('yu_gothic', self.size)
         self.bold_font = pygame.font.SysFont('yu_gothic', self.size, bold=True)
         self.bold = False
 
     def get_text_color(self):
-        if isinstance(self.component.color_info, UI_component_color_info):
+        if self.component.color_info != None:
             return self.component.color_info.primary_complementary_color
         else:
             return self.component.parent_box.color_info.secondary_complementary_color
@@ -178,6 +180,8 @@ class screen_box (UI_element):                                       # En boks p
         self.number_of_buttons = 0                                      # Antallet af automatisk placerede knapper i listen af containere. Bruges til at arrangere knapperne jævnt.
 
     def create_UIcomponent(self, color : UI_component_color_info, placement_info : UI_component_placement_info, text = "", text_size = 20, function = None, visible = True):
+        if color == None:
+            color = self.color_info
         component = UI_component(placement_info, color, self, visible)
         text_object = UI_component_text(component, text, text_size)
         component.text = text_object
@@ -240,7 +244,7 @@ class screen_box (UI_element):                                       # En boks p
         for container in self.components:
 
             if container.placement_info == None:
-                if isinstance(container.button, UI_button_extension):    # Automatisk placeret knap.
+                if container.button != None:    # Automatisk placeret knap.
                     container.rect.width = (self.rect.width - self.border_width * (self.number_of_buttons + 1)) / self.number_of_buttons
                     container.rect.height = 40 # Standard højde for knapper. TODO: Gør dette dynamisk baseret på screen_boxens højde.
                     automatic_button_index += 1
@@ -286,8 +290,8 @@ class dropdown(screen_box):
 
 main_menu =  {
     "0": {
-        "color_info": [ 160, 160, 160, 120, 160, 180, 134, 189, 0 ],
-        "placement_info": [ 400, 200, 600, 300, "center", "center" ],
+        "color_info": [ 0, 102, 97, 16, 106, 34, 209, 173, 0 ],
+        "placement_info": [ 600, 200, 600, 300, "center", "center" ],
         "components": [
             {
             "color_info": None,
@@ -301,9 +305,17 @@ main_menu =  {
             "color_info": None,
             "visible": True,
             "placement_info": None,
-            "text": "Spil",
+            "text": "tilføj knap",
             "text_size": None,
-            "button_function_id": "start"
+            "button_function_id": "tilføj_knap"
+        },
+            {
+            "color_info": None,
+            "visible": True,
+            "placement_info": None,
+            "text": "Flyt menu",
+            "text_size": None,
+            "button_function_id": "flyt"
         },
             {
             "color_info": [ 255, 255, 255, 43, 80, 170, 79, 168, 111 ],
@@ -340,8 +352,8 @@ main_menu =  {
         ]
     },
     "1": {
-        "color_info": [ 160, 160, 160, 120, 160, 180, 134, 189, 0 ],
-        "placement_info": [ 400, 200, 600, 300, "center", "center" ],
+        "color_info": [ 200, 80, 160, 120, 160, 180, 134, 189, 0 ],
+        "placement_info": [800, 200, 600, 300, "center", "center" ],
         "components": [
                 {
                 "color_info": None,
@@ -360,6 +372,14 @@ main_menu =  {
                 "button_function_id": "skift_menu"
             },
                 {
+                "color_info": None,
+                "visible": True,
+                "placement_info": None,
+                "text": "Flyt menu",
+                "text_size": None,
+                "button_function_id": "flyt"
+            },
+                {
             "color_info": None,
             "visible": True,
             "placement_info": [ 0, 20, 140, 0, "center", "Askeslaske" ],
@@ -371,14 +391,9 @@ main_menu =  {
     }
 }
 
- 
-#with open("menu.json", "w", encoding="utf-8") as f:
-#    json = json.dump(main_menu, f, indent=4)
-
 # Return of the king...
 def intet():
     pass
-
 
 class Game():
     def __init__(self):
@@ -395,6 +410,7 @@ def start():
 
 def afslut():
     game.running = False
+    print("skider i bukserne")
 
 def skift_menu():
     if game.active_menu < 1:
@@ -402,11 +418,24 @@ def skift_menu():
     else:
         game.active_menu = 0
 
+def gem_menu():
+    pass
+
+def flyt():
+    menus[game.active_menu].move(1300, 600)
+
+def tilføj_knap():
+    menus[game.active_menu].create_UIcomponent(None, None, "Yay", None, "afslut")
+
+
 function_map = {
     "afslut": afslut,
     "start": start,
     "intet": intet,
     "skift_menu": skift_menu,
+    "flyt" : flyt,
+    "tilføj_knap": tilføj_knap,
+    "gem_menu" : gem_menu,
     "null": None
 }
 
@@ -448,6 +477,8 @@ def create_menu_from_json(json_data : dict, menu_index : int) -> screen_box:
                 (index_component["color_info"][3], index_component["color_info"][4], index_component["color_info"][5]),
                 (index_component["color_info"][6], index_component["color_info"][7], index_component["color_info"][8])
             )
+        else:
+            component_color = None
         if index_component["placement_info"] != None:
             component_placement = UI_component_placement_info(
                 index_component["placement_info"][0],
@@ -506,17 +537,15 @@ def create_json_from_menu(output : str, menu : screen_box) -> dict:
         menu_dict["components"][component]["text_size"] = menu.components[component].text.size
         menu_dict["components"][component]["button_function_id"] = menu.components[component].button.function_id
     
-    try:
-        with open(output, "w", encoding="utf-8") as f:
-            json.dump(menu_dict, f, indent=4)
-            return menu_dict
-    except:
-        print("Du er en mongol!")
-        return menu_dict
-
+    #try:
+    #    with open(output, "w", encoding="utf-8") as f:
+    #        json.dump(menu_dict, f, indent=4)
+    #        return menu_dict
+    #except:
+    #    print("Du er en mongol!")
+    return menu_dict
 
 if __name__ == "__main__":
-
 
     with open("menu.jacob", "w", encoding = "utf-8") as f:
         json.dump(main_menu, f, indent = 4)
@@ -535,15 +564,13 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((1600, 800))
 
     while game.running == True:
-
+        if current_menu != game.active_menu:
+            current_menu = game.active_menu
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game.running = False
-            menus[0].event_handler(event)
-
-        if current_menu != game.active_menu:
-            current_menu = game.active_menu
+            menus[current_menu].event_handler(event)
 
         screen.fill((30, 144, 255))  # Dodger blue
         menus[current_menu].update()
@@ -551,6 +578,3 @@ if __name__ == "__main__":
 
         pygame.display.flip()
     pygame.quit()
-
-
-    
