@@ -1,6 +1,7 @@
 import pygame
 import json
 
+# Return of the king...
 def intet():
     pass
 
@@ -17,7 +18,6 @@ class UI_info():                                                        # Basisk
         pass
     def draw(self, screen):
         pass
-
 
 class UI_component_placement_info(UI_info):
     def __init__(self, x, y, width, height, anchor_x = "left", anchor_y = "top"):
@@ -71,16 +71,16 @@ class UI_component_text(UI_info):
             text_surface = self.font.render(self.text, True, self.get_text_color(), None)
         screen.blit(text_surface, (self.component.rect.x  + (0.5 * (self.component.rect.width - self.text_rect.width)), self.component.rect.y + self.component.rect.height * 0.2))
 
-
 class UI_button_extension(UI_info):
-    def __init__(self, component, function = intet):
+    def __init__(self, component, function : str = "intet"):
         self.function = function
         self.component = component
 
     def event_handling(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.component.rect.collidepoint(event.pos):
-                self.function()
+                fcunt = map(self.function, function_map)
+                fcunt()
 
     def update(self):
         if self.component.rect.collidepoint(pygame.mouse.get_pos()):   
@@ -91,15 +91,16 @@ class UI_button_extension(UI_info):
 # UI-Komponenter
 
 class UI_component:                                         # Basisklasse for alle UI komponenter til et UI_element.
-    def __init__(self, visible = True, placement_info: UI_component_placement_info = UI_info(), color_info: UI_component_color_info = UI_info()):
+    def __init__(self, placement_info: UI_component_placement_info, color_info: UI_component_color_info, parent_box : "screen_box", visible = True):
         self.color_info = color_info
         self.hovered = False
         self.placement_info = placement_info
         self.text = UI_info()
         self.button = UI_info()
-        self.parent_box = None
+        self.parent_box = parent_box
         self.rect = pygame.Rect(0, 0, 10, 10)
         self.drawing_method = None
+        self.visible = visible
         if visible:
             self.drawing_method = self.drawing_helper_visible
         else:
@@ -182,9 +183,8 @@ class screen_box (UI_element):                                       # En boks p
         self.components = []
         self.number_of_buttons = 0                                      # Antallet af automatisk placerede knapper i listen af containere. Bruges til at arrangere knapperne jævnt.
 
-    def create_UIcomponent(self, visible = True, color : UI_component_color_info = UI_info(), placement_info : UI_component_placement_info = UI_info(), text = "", text_size = 20, function = None):
-        component = UI_component(visible, placement_info, color)
-        component.parent_box = self
+    def create_UIcomponent(self, color : UI_component_color_info, placement_info : UI_component_placement_info, text = "", text_size = 20, function = None, visible = True):
+        component = UI_component(placement_info, color, self, visible)
         text_object = UI_component_text(component, text, text_size)
         component.text = text_object
         if function != None:
@@ -358,12 +358,11 @@ main_menu =  {
 #with open("menu.json", "w", encoding="utf-8") as f:
 #    json = json.dump(main_menu, f, indent=4)
 
-
-
 function_map = {
     "quit": quit,
     "start": start,
-    None: None
+    "intet": intet,
+    "null": None
 }
 
 menus = []
@@ -391,12 +390,11 @@ def create_menu_from_json(json_data : dict, menu_index : int, local_function_map
     menu = screen_box(placement_info, color_info, border)
 
     for index in range(len(json_data["components"])):
-        
 
-        index_component = json_data["components"]
-        component_color = UI_info()
-        component_placement = UI_info()
-        component_text = None
+        index_component = json_data["components"][index]
+        component_color = UI_component_color_info()
+        component_placement = UI_component_placement_info(0, 0, 0, 0, "Askeslaske", "Askeslaske")
+        component_text = ""
         component_text_size = 20
 
         if  index_component["color_info"] != None:
@@ -426,7 +424,7 @@ def create_menu_from_json(json_data : dict, menu_index : int, local_function_map
         else:
             func_key = None
 
-        menu.create_UIcomponent(index_component["visible"], component_color, component_placement, component_text, component_text_size, func_key)
+        menu.create_UIcomponent(component_color, component_placement, component_text, component_text_size, func_key, index_component["visible"])
     #menus.append(menu)
     return menu
 
@@ -437,13 +435,33 @@ def create_json_from_menu(output : str, menu : screen_box) -> dict:
         "placement_info" : [ 400, 200, 600, 300, "center", "center" ],
         "components" : []
     }
+    # Farve
+    color = menu.color_info
+    for i in range(2):
+        menu_dict["color_info"][i] = color.primary_color[i]
+        menu_dict["color_info"][2 + i] = color.secondary_color[i]
+        menu_dict["color_info"][6 + i] = color.accent_color[i]
+    # Position
+        menu_dict["placement_info"][0] = menu.rect.x
+        menu_dict["placement_info"][1] = menu.rect.y
+        menu_dict["placement_info"][2] = menu.rect.width
+        menu_dict["placement_info"][3] = menu.rect.height
+        menu_dict["placement_info"][4] = "Askeslaske"
+        menu_dict["placement_info"][5] = "Askeslaske"
 
+    # Komponenter
+    for component in menu.components:
+        menu_dict["components"][component]["color_info"]
+        menu_dict["components"][component]["visible"] = menu.components[component].visible
+        menu_dict["components"][component]["placement_info"] = 
+        menu_dict["components"][component]["text"] = menu.components[component].text.text
+        menu_dict["components"][component]["text_size"] = menu.components[component].text.size
+        menu_dict["components"][component]["button_function"] = menu.components[component].button.function
     
-    
-
     try:
         with open(output, "w", encoding="utf-8") as f:
-            json = json.dump(menu_dict, f, indent=4)
-            return json
+            json.dump(menu_dict, f, indent=4)
+            return menu_dict
     except:
-        print("Mongol")
+        print("Du er en mongol!")
+        return menu_dict
