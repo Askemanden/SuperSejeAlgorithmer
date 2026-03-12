@@ -68,14 +68,15 @@ class UI_component_text(UI_info):
         screen.blit(text_surface, (self.component.rect.x  + (0.5 * (self.component.rect.width - self.text_rect.width)), self.component.rect.y + self.component.rect.height * 0.2))
 
 class UI_button_extension(UI_info):
-    def __init__(self, component, function_id : str = "intet"):
+    def __init__(self, component, function_id : str = "intet", function_map : dict = {}):
         self.function_id = function_id
         self.component = component
+        self.function_map = function_map
 
     def event_handling(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.component.rect.collidepoint(event.pos):
-                fcunt = function_map.get(self.function_id, intet)
+                fcunt = self.function_map.get(self.function_id, intet)
                 fcunt()
 
     def update(self):
@@ -102,7 +103,7 @@ class UI_component:                                         # Basisklasse for al
             self.drawing_method = self.drawing_helper_invisible
 
     def update_color(self):
-        if not isinstance(self.color_info, UI_component_color_info):
+        if self.color_info == None :
             self.color_info = self.parent_box.color_info
 
     def update(self):
@@ -179,14 +180,14 @@ class screen_box (UI_element):                                       # En boks p
         self.components = []
         self.number_of_buttons = 0                                      # Antallet af automatisk placerede knapper i listen af containere. Bruges til at arrangere knapperne jævnt.
 
-    def create_UIcomponent(self, color : UI_component_color_info, placement_info : UI_component_placement_info, text = "", text_size = 20, function = None, visible = True):
+    def create_UIcomponent(self, color : UI_component_color_info, placement_info : UI_component_placement_info, text = "", text_size = 20, function = None, visible : bool = True, function_map : dict = {}):
         if color == None:
             color = self.color_info
         component = UI_component(placement_info, color, self, visible)
         text_object = UI_component_text(component, text, text_size)
         component.text = text_object
         if function != None:
-            button_object = UI_button_extension(component, function)
+            button_object = UI_button_extension(component, function, function_map)
             component.button = button_object
 
         self.components.append(component)
@@ -286,228 +287,87 @@ class dropdown(screen_box):
         self.placement_info = placement
         self.color_info = color
 
-# JSON
-
-main_menu =  {
-    # Esc-menu
-    "0": {
-        "color_info": [ 0, 102, 97, 16, 106, 34, 209, 173, 0 ],
-        "placement_info": [ 800, 400, 600, 400, "center", "center" ],
-        "components": [
-            {
-            "color_info": None,
-            "visible": True,
-            "placement_info": None,
-            "text": "luk",
-            "text_size": None,
-            "button_function_id": "toggle_esc_menu"
-        },
-            {
-            "color_info": None,
-            "visible": True,
-            "placement_info": None,
-            "text": "Gem menulayout",
-            "text_size": None,
-            "button_function_id": "gem_menu"
-        },
-            {
-            "color_info": None,
-            "visible": True,
-            "placement_info": None,
-            "text": "Afslut",
-            "text_size": None,
-            "button_function_id": "afslut"
-        },
-            {
-            "color_info": [255, 255, 255, 130, 130, 130, 100, 50, 50],
-            "visible": False,
-            "placement_info": [0, -40, 300, 150, "center", "center"],
-            "text": "Menu",
-            "text_size": 80,
-            "button_function_id": None
-        }
-        ]
-    },
-    
-    "1": {
-        "color_info": [ 0, 102, 97, 16, 106, 34, 209, 173, 0 ],
-        "placement_info": [ 600, 200, 600, 300, "center", "center" ],
-        "components": [
-            {
-            "color_info": None,
-            "visible": True,
-            "placement_info": None,
-            "text": "Afslut",
-            "text_size": None,
-            "button_function_id": "afslut_promt"
-        }
-        ]
-    },
-    
-    "3": {
-        "color_info": [ 0, 102, 97, 16, 106, 34, 209, 173, 0 ],
-        "placement_info": [ 600, 200, 600, 300, "center", "center" ],
-        "components": [
-            {
-            "color_info": None,
-            "visible": True,
-            "placement_info": None,
-            "text": "Afslut",
-            "text_size": None,
-            "button_function_id": "afslut"
-        },
-            {
-            "color_info": None,
-            "visible": True,
-            "placement_info": None,
-            "text": "tilføj knap",
-            "text_size": None,
-            "button_function_id": "tilføj_knap"
-        },
-            {
-            "color_info": None,
-            "visible": True,
-            "placement_info": None,
-            "text": "Flyt menu",
-            "text_size": None,
-            "button_function_id": "flyt"
-        },
-            {
-            "color_info": [ 255, 255, 255, 43, 80, 170, 79, 168, 111 ],
-            "visible": True,
-            "placement_info": [ 0, 20, 140, 0, "center", "Askeslaske" ],
-            "text": "Das Spiel",
-            "text_size": 60,
-            "button_function_id": None
-        },
-            {
-            "color_info": None,
-            "visible": True,
-            "placement_info": [ 0, 100, 140, 0, "center", "Askeslaske" ],
-            "text": "Das spiel, der Übermenschen",
-            "text_size": 26,
-            "button_function_id": None
-        },
-            {
-            "color_info": None,
-            "visible": True,
-            "placement_info": [ 0, 130, 140, 0, "center", "Askeslaske" ],
-            "text": "Skabt af Jacob, Aske og Louis",
-            "text_size": 15,
-            "button_function_id": None
-        },
-            {
-            "color_info": None,
-            "visible": True,
-            "placement_info": None,
-            "text": "Skift menu",
-            "text_size": None,
-            "button_function_id": "skift_menu"
-        }
-        ]
-    },
-    "4": {
-        "color_info": [ 200, 80, 160, 120, 160, 180, 134, 189, 0 ],
-        "placement_info": [800, 200, 600, 300, "center", "center" ],
-        "components": [
-                {
-                "color_info": None,
-                "visible": True,
-                "placement_info": None,
-                "text": "menu",
-                "text_size": None,
-                "button_function_id": "toggle_esc_menu"
-            },
-                {
-                "color_info": None,
-                "visible": True,
-                "placement_info": None,
-                "text": "Skift Menu",
-                "text_size": 20,
-                "button_function_id": "skift_menu"
-            },
-                {
-                "color_info": None,
-                "visible": True,
-                "placement_info": None,
-                "text": "Flyt menu",
-                "text_size": None,
-                "button_function_id": "flyt"
-            },
-                {
-            "color_info": None,
-            "visible": True,
-            "placement_info": [ 0, 20, 140, 0, "center", "Askeslaske" ],
-            "text": "Hej Mark Moore!",
-            "text_size": 40,
-            "button_function_id": None
-        }
-        ]
-    }
-}
-
 # Return of the king...
 def intet():
     pass
 
 class Game():
-    def __init__(self):
+    def __init__(self, function_map : dict = {}):
         self.running = True
         self.esc_menu = False
 
         self.active_menu = 0
 
         self.menus = []
-        self.HUD_elements = []
+        #self.HUD_elements = []
         self.esc_menu_elements = []
 
-    def save_menu_layout(self):
-        print("menuer gemt")
+        self.function_map = function_map
+
+    def skift_menu(self):
+        self.active_menu = self.active_menu + 1
+        if self.active_menu > len(self.menus) - 1:
+            self.active_menu = 0
+        
+
+    def save_menu_layout(self, output : str = "saved_menu.json"):
+        temp_menu_dict = {}
+        
+        screen_box_list = []
+        for i in range (len(self.menus)):
+            screen_box_list.append(create_json_from_menu(self.menus[i]))
+        
+        temp_menu_dict[f"screen_boxes"] = screen_box_list
+
+        esc_menu_list = []
+        for j in range (len(self.esc_menu_elements)):
+          esc_menu_list.append(create_json_from_menu(self.esc_menu_elements[j]))
+
+        temp_menu_dict[f"esc_menu"] = esc_menu_list
+
+        with open(output, "w", encoding = "utf-8") as f:
+            json.dump(temp_menu_dict, f, indent = 4)
+        
+        print(f"menuer gemt til fil {output}")
+
+
     def afslut(self):
         self.running = False
 
-game = Game()
+    def update(self):
+        self.menus[self.active_menu].update()
+    
+    def draw(self, screen):
+        self.menus[self.active_menu].draw(screen)
 
-def start():
-    running = True
+    def esc_update(self):
+        self.esc_menu_elements[self.active_menu].update()
+    
+    def esc_draw(self, screen):
+        self.esc_menu_elements[self.active_menu].draw(screen)
 
-def afslut():
-    game.running = False
-    print("skider i bukserne")
+    def load_menus(self, json_filename : "str"):
 
-def skift_menu():
-    if game.active_menu < 1:
-        game.active_menu = 1
-    else:
-        game.active_menu = 0
+        with open(json_filename, "r", encoding = "utf-8") as f:
+            menus = json.load(f)
 
-def gem_menu():
-    pass
+        for i in range(len(menus["screen_boxes"])):
+            self.menus.append(create_menu_from_list(menus["screen_boxes"], i, self.function_map))
 
-def flyt():
-    game.menus[game.active_menu].move(1300, 600)
+        for j in range(len(menus["esc_menu"])):
+            self.esc_menu_elements.append(create_menu_from_list(menus["esc_menu"], j, self.function_map))
+        print("Menuer indlæst")
 
-def tilføj_knap():
-    game.menus[game.active_menu].create_UIcomponent(None, None, "Yay", None, "afslut")
+    def menu_event_handling(self, event):
+        self.menus[self.active_menu].event_handler(event)
 
-def toggle_esc_menu():
-    game.esc_menu = not game.esc_menu
+    def esc_event_handling(self, event):
+        self.esc_menu_elements[self.active_menu].event_handler(event)
 
-function_map = {
-    "afslut": afslut,
-    "start": start,
-    "intet": intet,
-    "skift_menu": skift_menu,
-    "flyt" : flyt,
-    "tilføj_knap": tilføj_knap,
-    "gem_menu" : gem_menu,
-    "toggle_esc_menu": toggle_esc_menu,
-    "gem_menu": game.save_menu_layout,
-    "null": None
-}
+def create_menu_from_list(json_data : dict, menu_index : int, function_map : dict = {}) -> screen_box:
 
-def create_menu_from_json(json_data : dict, menu_index : int) -> screen_box:
-    json_data = json_data[f"{menu_index}"]
+    json_data = json_data[menu_index]
+
     placement_info = UI_component_placement_info(
         json_data["placement_info"][0],
         json_data["placement_info"][1],
@@ -568,75 +428,138 @@ def create_menu_from_json(json_data : dict, menu_index : int) -> screen_box:
         else:
             func_key = None
 
-        menu.create_UIcomponent(component_color, component_placement, component_text, component_text_size, func_key, index_component["visible"])
+        menu.create_UIcomponent(component_color, component_placement, component_text, component_text_size, func_key, index_component["visible"], function_map)
     #menus.append(menu)
     return menu
 
-def create_json_from_menu(output : str, menu : screen_box) -> dict:
-    
+def create_json_from_menu(menu: screen_box) -> dict:
+    # --- Grundstruktur ---
     menu_dict = {
-        "color_info" : [ 160, 160, 160, 120, 160, 180, 134, 189, 0 ],
-        "placement_info" : [ 400, 200, 600, 300, "center", "center" ],
-        "components" : []
+        "color_info": [],
+        "placement_info": [],
+        "components": []
     }
-    # Farve
-    color = menu.color_info
-    for i in range(2):
-        menu_dict["color_info"][i] = color.primary_color[i]
-        menu_dict["color_info"][2 + i] = color.secondary_color[i]
-        menu_dict["color_info"][6 + i] = color.accent_color[i]
-    # Position
-        menu_dict["placement_info"][0] = menu.rect.x
-        menu_dict["placement_info"][1] = menu.rect.y
-        menu_dict["placement_info"][2] = menu.rect.width
-        menu_dict["placement_info"][3] = menu.rect.height
-        menu_dict["placement_info"][4] = "Askeslaske"
-        menu_dict["placement_info"][5] = "Askeslaske"
 
-    # Komponenter
-    for component in menu.components:
-        menu_dict["components"][component]["color_info"] = menu.components[component].color_info
-        menu_dict["components"][component]["visible"] = menu.components[component].visible
-        menu_dict["components"][component]["placement_info"] = menu.components[component].placement_info
-        menu_dict["components"][component]["text"] = menu.components[component].text.text
-        menu_dict["components"][component]["text_size"] = menu.components[component].text.size
-        menu_dict["components"][component]["button_function_id"] = menu.components[component].button.function_id
-    
-    #try:
-    #    with open(output, "w", encoding="utf-8") as f:
-    #        json.dump(menu_dict, f, indent=4)
-    #        return menu_dict
-    #except:
-    #    print("Du er en mongol!")
+    # --- Farver ---
+    color = menu.color_info
+    menu_dict["color_info"] = [
+        color.primary_color[0], color.primary_color[1], color.primary_color[2],
+        color.secondary_color[0], color.secondary_color[1], color.secondary_color[2],
+        color.accent_color[0], color.accent_color[1], color.accent_color[2]
+    ]
+
+    # --- Placering ---
+    menu_dict["placement_info"] = [
+        menu.rect.x + menu.rect.width // 2,   # center X
+        menu.rect.y + menu.rect.height // 2,  # center Y
+        menu.rect.width,
+        menu.rect.height,
+        "center",
+        "center"
+    ]
+
+    # --- Komponenter ---
+    for comp in menu.components:
+        comp_dict = {}
+
+        # Farve
+        if comp.color_info != menu.color_info:
+            c = comp.color_info
+            comp_dict["color_info"] = [
+                c.primary_color[0], c.primary_color[1], c.primary_color[2],
+                c.secondary_color[0], c.secondary_color[1], c.secondary_color[2],
+                c.accent_color[0], c.accent_color[1], c.accent_color[2]
+            ]
+        else:
+            comp_dict["color_info"] = None
+
+        # Synlighed
+        comp_dict["visible"] = comp.visible
+
+        # Placering
+        if comp.placement_info != None:
+            p = comp.placement_info
+            comp_dict["placement_info"] = [
+                p.x, p.y, p.width, p.height, p.anchor_x, p.anchor_y
+            ]
+        else:
+            comp_dict["placement_info"] = None
+
+        # Tekst
+        comp_dict["text"] = comp.text.text
+        comp_dict["text_size"] = comp.text.size
+
+        # Knapfunktion
+        if isinstance(comp.button, UI_button_extension):
+            comp_dict["button_function_id"] = comp.button.function_id
+        else:
+            comp_dict["button_function_id"] = None
+
+        # Tilføj til listen
+        menu_dict["components"].append(comp_dict)
+
     return menu_dict
+
+"""
+def start():
+    game.running = True
+
+def afslut():
+    game.running = False
+    print("skider i bukserne")
+
+def skift_menu():
+    game.skift_menu()
+
+def gem_menu():
+    game.save_menu_layout("Askeslaske.json")
+
+def flyt():
+    game.menus[game.active_menu].move(1300, 600)
+
+def tilføj_knap():
+    game.menus[game.active_menu].create_UIcomponent(None, None, "Yay", None, "afslut")
+
+def toggle_esc_menu():
+    game.esc_menu = not game.esc_menu
+
+function_map = {
+    "afslut": afslut,
+    "start": start,
+    "intet": intet,
+    "skift_menu": skift_menu,
+    "flyt" : flyt,
+    "tilføj_knap": tilføj_knap,
+    "gem_menu" : gem_menu,
+    "toggle_esc_menu": toggle_esc_menu,
+    "null": None
+}
+
+game = Game(function_map)
 
 if __name__ == "__main__":
 
-    with open("menu.jacob", "w", encoding = "utf-8") as f:
-        json.dump(main_menu, f, indent = 4)
+    #with open("menu.jacob", "w", encoding = "utf-8") as f:
+    #    json.dump(main_menu, f, indent = 4)
 
-    with open("menu.jacob", "r", encoding = "utf-8") as f:
+    with open("menu.json", "r", encoding = "utf-8") as f:
         main_menu = json.load(f)
     
     pygame.init()
     pygame.font.init()
 
-    current_menu = game.active_menu
-
     # Populate menus
-    for i in range(2):
-        game.menus.append(create_menu_from_json(main_menu, i + 3))
+    for i in range(len(main_menu["screen_boxes"])):
+        game.menus.append(create_menu_from_list(main_menu["screen_boxes"], i, game.function_map))
 
-    game.esc_menu_elements.append(create_menu_from_json(main_menu, 0))
+    for j in range(len(main_menu["esc_menu"])):
+        game.esc_menu_elements.append(create_menu_from_list(main_menu["esc_menu"], j, game.function_map))
 
-    #game.HUD_elements.append(create_menu_from_json(main_menu, 1))
-
+    #game.HUD_elements.append(create_menu_from_json(main_menu, 1, game.function_map))
 
     screen = pygame.display.set_mode((1600, 800))
 
     while game.running == True:
-        if current_menu != game.active_menu:
-            current_menu = game.active_menu
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -645,9 +568,9 @@ if __name__ == "__main__":
                 game.esc_menu = not game.esc_menu
             
             if game.esc_menu != True:
-                game.menus[current_menu].event_handler(event)
-                for elements in game.HUD_elements:
-                    game.HUD_elements[elements].event_handler(event)
+                game.menus[game.active_menu].event_handler(event)
+                #for elements in game.HUD_elements:
+                #    game.HUD_elements[elements].event_handler(event)
             else:
                 # Opdaterer pausemenuen
                 for element in range (len(game.esc_menu_elements)):
@@ -661,15 +584,15 @@ if __name__ == "__main__":
             pygame.display.flip()
             continue
 
-
         screen.fill((30, 144, 255))  # Dodger blue
-        game.menus[current_menu].update()
-        game.menus[current_menu].draw(screen)
+        game.menus[game.active_menu].update()
+        game.menus[game.active_menu].draw(screen)
 
-        for elements in game.HUD_elements:
-            game.HUD_elements[elements].update()
-            game.HUD_elements[elements].draw(screen)
-
+        #for elements in game.HUD_elements:
+        #    game.HUD_elements[elements].update()
+        #    game.HUD_elements[elements].draw(screen)
 
         pygame.display.flip()
     pygame.quit()
+
+"""
