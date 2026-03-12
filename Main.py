@@ -13,7 +13,7 @@ def toggle_menu():
     game.toggle_menu()
 
 def input_file():
-    kruskal_dict = flipper.skid()      #<--- ASKE SKID() RETURNERER EN ORDBOG, GØR NOGET MED DEN
+    kruskal_dict = flipper.skid()      #<--- ASKE SKID() RETURNERER EN ORDBOG, GØR NOGET MED DEN # "flipper.skid() er self-evident 📜🪶🦄"
 
 Los_functionos_mappos = {
     "quit": quit,
