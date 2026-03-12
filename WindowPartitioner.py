@@ -46,10 +46,12 @@ class UI_component_text(UI_info):
         self.bold = False
 
     def get_text_color(self):
-        if self.component.color_info != None:
-            return self.component.color_info.primary_complementary_color
-        else:
-            return self.component.parent_box.color_info.secondary_complementary_color
+        #if self.component.color_info != None:
+        #    return self.component.color_info.primary_complementary_color
+        #else:
+        #    #return self.component.parent_box.color_info.secondary_complementary_color
+        #    return [0, 0, 0]
+        return [0, 0, 0]
 
     def update(self):
         if self.component.hovered:
@@ -297,14 +299,15 @@ class Game():
         self.esc_menu = False
 
         self.active_menu = 0
+        self.active_esc_menu = 0
 
         self.menus = []
-        #self.HUD_elements = []
+        self.HUD_elements = []
         self.esc_menu_elements = []
 
         self.function_map = function_map
 
-    def skift_menu(self):
+    def toggle_menu(self):
         self.active_menu = self.active_menu + 1
         if self.active_menu > len(self.menus) - 1:
             self.active_menu = 0
@@ -336,15 +339,19 @@ class Game():
 
     def update(self):
         self.menus[self.active_menu].update()
+        for i in range (len(self.HUD_elements)):
+            self.HUD_elements[i].update()
     
     def draw(self, screen):
         self.menus[self.active_menu].draw(screen)
+        for i in range (len(self.HUD_elements)):
+            self.HUD_elements[i].draw(screen)
 
     def esc_update(self):
-        self.esc_menu_elements[self.active_menu].update()
+        self.esc_menu_elements[self.active_esc_menu].update()
     
     def esc_draw(self, screen):
-        self.esc_menu_elements[self.active_menu].draw(screen)
+        self.esc_menu_elements[self.active_esc_menu].draw(screen)
 
     def load_menus(self, json_filename : "str"):
 
@@ -356,13 +363,19 @@ class Game():
 
         for j in range(len(menus["esc_menu"])):
             self.esc_menu_elements.append(create_menu_from_list(menus["esc_menu"], j, self.function_map))
+
+        for k in range(len(menus["hud"])):
+            self.HUD_elements.append(create_menu_from_list(menus["hud"], k, self.function_map))
         print("Menuer indlæst")
 
     def menu_event_handling(self, event):
         self.menus[self.active_menu].event_handler(event)
 
+        for i in range (len(self.HUD_elements)):
+            self.HUD_elements[i].event_handler(event)
+
     def esc_event_handling(self, event):
-        self.esc_menu_elements[self.active_menu].event_handler(event)
+        self.esc_menu_elements[self.active_esc_menu].event_handler(event)
 
 def create_menu_from_list(json_data : dict, menu_index : int, function_map : dict = {}) -> screen_box:
 

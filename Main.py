@@ -1,15 +1,25 @@
 import pygame
 import json
 import WindowPartitioner as UI
+import Fil_input as flipper
 
 def quit():
     game.running = False
+
 def toggle_overlay():
     game.esc_menu = not game.esc_menu
 
+def toggle_menu():
+    game.toggle_menu()
+
+def input_file():
+    kruskal_dict = flipper.skid()      #<--- ASKE SKID() RETURNERER EN ORDBOG, GØR NOGET MED DEN
+
 Los_functionos_mappos = {
-    "afslut": quit,
-    "toggle_esc_menu" : toggle_overlay
+    "quit": quit,
+    "toggle_esc_menu" : toggle_overlay,
+    "toggle_menu" : toggle_menu,
+    "input_file" : input_file
 }
 
 game = UI.Game(Los_functionos_mappos)
