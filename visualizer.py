@@ -114,7 +114,7 @@ def visual_kruskal_test():
             drawGraphWithMST(edges, mst_edges, vertex_count, window)
             pg.display.flip()
 
-            time.sleep(1.0)  # pause so you can see each step
+            time.sleep(1.0)  
 
         else:
             window.fill((240, 240, 240))
