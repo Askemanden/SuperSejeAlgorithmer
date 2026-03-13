@@ -1,8 +1,9 @@
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 import json
+from  jsongraph import *
 
-def skid() -> dict:
+def skid() ->Tuple[Graph,int] :
     Tk().withdraw()  # skjul tkinter-vinduet
 
     filnavn = askopenfilename(
@@ -11,11 +12,8 @@ def skid() -> dict:
     )
 
     if filnavn:
-        with open(filnavn, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            print("Indlæst JSON:", data)
-            return data
+        return readData(filnavn)
     else:
-        data = {}
+        data : Tuple[Graph,int] = ([(0,1,1)],2)
         print("Du er en abe")
         return data
