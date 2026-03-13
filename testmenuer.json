@@ -1,0 +1,355 @@
+{
+    "screen_boxes": [
+        {
+            "color_info": [
+                0,
+                102,
+                97,
+                16,
+                106,
+                34,
+                209,
+                173,
+                0
+            ],
+            "placement_info": [
+                800,
+                400,
+                600,
+                300,
+                "center",
+                "center"
+            ],
+            "components": [
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Afslut",
+                    "text_size": 20,
+                    "button_function_id": "afslut"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "tilf\u00f8j knap",
+                    "text_size": 20,
+                    "button_function_id": "tilf\u00f8j_knap"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Flyt menu",
+                    "text_size": 20,
+                    "button_function_id": "flyt"
+                },
+                {
+                    "color_info": [
+                        255,
+                        255,
+                        255,
+                        43,
+                        80,
+                        170,
+                        79,
+                        168,
+                        111
+                    ],
+                    "visible": true,
+                    "placement_info": [
+                        0,
+                        20,
+                        140,
+                        0,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "Das Spiel",
+                    "text_size": 60,
+                    "button_function_id": null
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": [
+                        0,
+                        100,
+                        140,
+                        0,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "Das spiel, der \u00dcbermenschen",
+                    "text_size": 26,
+                    "button_function_id": null
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": [
+                        0,
+                        130,
+                        140,
+                        0,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "Skabt af Jacob, Aske og Louis",
+                    "text_size": 15,
+                    "button_function_id": null
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Skift menu",
+                    "text_size": 20,
+                    "button_function_id": "skift_menu"
+                }
+            ]
+        },
+        {
+            "color_info": [
+                0,
+                102,
+                97,
+                16,
+                106,
+                34,
+                209,
+                173,
+                0
+            ],
+            "placement_info": [
+                800,
+                400,
+                600,
+                300,
+                "center",
+                "center"
+            ],
+            "components": [
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Skift menu",
+                    "text_size": 20,
+                    "button_function_id": "skift_menu"
+                },
+                {
+                    "color_info": [
+                        255,
+                        255,
+                        255,
+                        43,
+                        80,
+                        170,
+                        79,
+                        168,
+                        111
+                    ],
+                    "visible": true,
+                    "placement_info": [
+                        0,
+                        20,
+                        140,
+                        0,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "Ny menu",
+                    "text_size": 60,
+                    "button_function_id": null
+                }
+            ]
+        },
+        {
+            "color_info": [
+                200,
+                80,
+                160,
+                120,
+                160,
+                180,
+                134,
+                189,
+                0
+            ],
+            "placement_info": [
+                800,
+                200,
+                600,
+                300,
+                "center",
+                "center"
+            ],
+            "components": [
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "menu",
+                    "text_size": 20,
+                    "button_function_id": "toggle_esc_menu"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Skift Menu",
+                    "text_size": 20,
+                    "button_function_id": "skift_menu"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Flyt menu",
+                    "text_size": 20,
+                    "button_function_id": "flyt"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": [
+                        0,
+                        20,
+                        140,
+                        0,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "Hej Mark Moore!",
+                    "text_size": 40,
+                    "button_function_id": null
+                }
+            ]
+        }
+    ],
+    "esc_menu": [
+        {
+            "color_info": [
+                0,
+                102,
+                97,
+                16,
+                106,
+                34,
+                209,
+                173,
+                0
+            ],
+            "placement_info": [
+                800,
+                400,
+                600,
+                400,
+                "center",
+                "center"
+            ],
+            "components": [
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "luk",
+                    "text_size": 20,
+                    "button_function_id": "toggle_esc_menu"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Gem menulayout",
+                    "text_size": 20,
+                    "button_function_id": "gem_menu"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Afslut",
+                    "text_size": 20,
+                    "button_function_id": "afslut"
+                },
+                {
+                    "color_info": [
+                        255,
+                        255,
+                        255,
+                        130,
+                        130,
+                        130,
+                        100,
+                        50,
+                        50
+                    ],
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        -40,
+                        300,
+                        150,
+                        "center",
+                        "center"
+                    ],
+                    "text": "Menu",
+                    "text_size": 80,
+                    "button_function_id": null
+                }
+            ]
+        },
+            {
+            "color_info": [
+                0,
+                102,
+                97,
+                16,
+                106,
+                34,
+                209,
+                173,
+                0
+            ],
+            "placement_info": [
+                800,
+                100,
+                60,
+                0,
+                "center",
+                "center"
+            ],
+            "border": 0,
+            "components": [
+                {
+                    "color_info": [
+                        255,
+                        255,
+                        255,
+                        130,
+                        130,
+                        130,
+                        100,
+                        50,
+                        50
+                    ],
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        -40,
+                        300,
+                        150,
+                        "center",
+                        "center"
+                    ],
+                    "text": "Escape Menu",
+                    "text_size": 80,
+                    "button_function_id": null
+                }
+            ]
+        }
+    ]
+}

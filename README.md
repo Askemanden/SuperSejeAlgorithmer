@@ -25,7 +25,6 @@ Programmet **skal** understøtte følgende funktionalitet:
 * Programmet skal kunne finde et minimum spanning tree mellem data, helst ved brug af Kruskals algoritme.
 * Programmet skal kunne vise følgende for brugeren:
 	* Rå data som gives til det
-	* Redigerede data, hvis dette understøttes
 	* Det minimale udspændte træ
 
 Derudover **kan** programmet understøtte følgende funktioner der gør programmet nemmere og bedre at bruge:

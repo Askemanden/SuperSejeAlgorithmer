@@ -1,0 +1,229 @@
+{
+    "screen_boxes": [
+        {
+            "color_info": [
+                60,
+                243,
+                86,
+                120,
+                160,
+                180,
+                134,
+                189,
+                0
+            ],
+            "placement_info": [
+                800,
+                200,
+                600,
+                300,
+                "center",
+                "center"
+            ],
+            "components": [
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": null,
+                    "text": "menu",
+                    "text_size": 20,
+                    "button_function_id": "toggle_esc_menu"
+                },
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": null,
+                    "text": "Skift Menu",
+                    "text_size": 20,
+                    "button_function_id": "toggle_menu"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": [
+                        0,
+                        20,
+                        140,
+                        0,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "Hej Mark Moore!",
+                    "text_size": 40,
+                    "button_function_id": null
+                }
+            ]
+        },
+        {
+            "color_info": [
+                60,
+                243,
+                86,
+                120,
+                160,
+                180,
+                134,
+                189,
+                0
+            ],
+            "placement_info": [
+                800,
+                200,
+                600,
+                300,
+                "center",
+                "center"
+            ],
+            "components": [
+                {
+                    "color_info": [
+                        255,
+                        255,
+                        255,
+                        0,
+                        0,
+                        0,
+                        60,
+                        60,
+                        60
+                    ],
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        20,
+                        20,
+                        20,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "Menu 2",
+                    "text_size": 60,
+                    "button_function_id": null
+                },
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": null,
+                    "text": "Overlay",
+                    "text_size": 20,
+                    "button_function_id": "toggle_esc_menu"
+                },
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": null,
+                    "text": "skift",
+                    "text_size": 20,
+                    "button_function_id": "toggle_menu"
+                }
+            ]
+        }
+    ],
+    "esc_menu": [
+        {
+            "color_info": [
+                0,
+                102,
+                97,
+                16,
+                106,
+                34,
+                209,
+                173,
+                0
+            ],
+            "placement_info": [
+                800,
+                400,
+                600,
+                400,
+                "center",
+                "center"
+            ],
+            "components": [
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "luk",
+                    "text_size": 20,
+                    "button_function_id": "toggle_esc_menu"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Vælg fil",
+                    "text_size": 20,
+                    "button_function_id": "input_file"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Afslut",
+                    "text_size": 20,
+                    "button_function_id": "quit"
+                },
+                {
+                    "color_info": [
+                        255,
+                        255,
+                        255,
+                        130,
+                        130,
+                        130,
+                        100,
+                        50,
+                        50
+                    ],
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        -40,
+                        300,
+                        150,
+                        "center",
+                        "center"
+                    ],
+                    "text": "Menu",
+                    "text_size": 80,
+                    "button_function_id": null
+                }
+            ]
+        }
+    ],
+    "hud": [
+        {
+            "color_info": [
+                0,
+                102,
+                97,
+                16,
+                106,
+                34,
+                209,
+                173,
+                0
+            ],
+            "placement_info": [
+                120,
+                740,
+                200,
+                80,
+                "Askeslaske",
+                "Askeslaske"
+            ],
+            "components": [
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Jeg skider i bukserne",
+                    "text_size": 20,
+                    "button_function_id": "toggle_esc_menu"
+                }
+            ]
+        }
+    ]
+}
