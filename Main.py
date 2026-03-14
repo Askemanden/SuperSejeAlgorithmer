@@ -43,14 +43,6 @@ def secret():
     global game
     game.switch_menu(2)
 
-def esc_menu_1():
-    global game
-    game.switch_esc_menu(0)
-
-def esc_menu_2():
-    global game
-    game.switch_esc_menu(1)
-
 def input_file():
     global data, state, dsu, mst_edges, current_cost, sorted_edges
     data = flipper.skid()
@@ -80,8 +72,6 @@ Los_functionos_mappos = {
     "main_menu" : main_menu,
     "about" : about,
     "secret" : secret,
-    "esc1" : esc_menu_1,
-    "esc2" : esc_menu_2,
     "input_file": input_file,
     "back_to_menu": back_to_menu
 }
@@ -106,10 +96,10 @@ if __name__ == "__main__":
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     if state == 'menu':
-                        esc_menu_1()
+                        game.switch_esc_menu(0)
                         game.esc_menu = not game.esc_menu
                     else:
-                        esc_menu_2()
+                        game.switch_esc_menu(1)
                         game.esc_menu = not game.esc_menu
             if game.esc_menu:
                 game.esc_event_handling(event)
