@@ -25,7 +25,7 @@
                     "color_info": null,
                     "visible": false,
                     "placement_info": null,
-                    "text": "menu",
+                    "text": "overlay",
                     "text_size": 20,
                     "button_function_id": "toggle_esc_menu"
                 },
@@ -33,7 +33,7 @@
                     "color_info": null,
                     "visible": false,
                     "placement_info": null,
-                    "text": "Skift Menu",
+                    "text": "Primaterne bag programmet",
                     "text_size": 20,
                     "button_function_id": "toggle_menu"
                 },
@@ -48,8 +48,8 @@
                         "center",
                         "Askeslaske"
                     ],
-                    "text": "Hej Mark Moore!",
-                    "text_size": 40,
+                    "text": "Kruskal-visualisator",
+                    "text_size": 60,
                     "button_function_id": null
                 }
             ]
@@ -68,9 +68,9 @@
             ],
             "placement_info": [
                 800,
-                200,
-                600,
                 300,
+                700,
+                400,
                 "center",
                 "center"
             ],
@@ -96,8 +96,53 @@
                         "center",
                         "Askeslaske"
                     ],
-                    "text": "Menu 2",
-                    "text_size": 60,
+                    "text": "Primaterne bag programmet",
+                    "text_size": 55,
+                    "button_function_id": null
+                },
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        120,
+                        0,
+                        0,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "Jacob Fischer Bak & Slaskemanden[TM]",
+                    "text_size": 35,
+                    "button_function_id": null
+                },
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        270,
+                        0,
+                        0,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "Den skizofrene bag UI - Jacob",
+                    "text_size": null,
+                    "button_function_id": null
+                },
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        300,
+                        0,
+                        0,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "Den lige så skizofrene bag Kruskal - Aske",
+                    "text_size": null,
                     "button_function_id": null
                 },
                 {
@@ -210,18 +255,18 @@
                 120,
                 740,
                 200,
-                80,
+                60,
                 "Askeslaske",
                 "Askeslaske"
             ],
             "components": [
                 {
                     "color_info": null,
-                    "visible": true,
+                    "visible": false,
                     "placement_info": null,
-                    "text": "Jeg skider i bukserne",
+                    "text": "Indlæs json",
                     "text_size": 20,
-                    "button_function_id": "toggle_esc_menu"
+                    "button_function_id": "input_file"
                 }
             ]
         }
