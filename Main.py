@@ -2,6 +2,10 @@ import pygame
 import json
 import WindowPartitioner as UI
 import Fil_input as flipper
+import kruskal
+import visualizer
+
+data = {}
 
 def quit():
     game.running = False
@@ -13,7 +17,7 @@ def toggle_menu():
     game.toggle_menu()
 
 def input_file():
-    kruskal_dict = flipper.skid()      #<--- ASKE SKID() RETURNERER EN ORDBOG, GØR NOGET MED DEN # "flipper.skid() er self-evident 📜🪶🦄"
+    data = flipper.skid()      #<--- ASKE SKID() RETURNERER EN ORDBOG, GØR NOGET MED DEN # "flipper.skid() er self-evident 📜🪶🦄"
 
 Los_functionos_mappos = {
     "quit": quit,
@@ -62,7 +66,8 @@ if __name__ == "__main__":
         game.update()
         game.draw(screen)
 
-        #Asekslasek-kode indsættes her:
+        if data != {}:
+            kruskal.kruskal_minimum_spanning_tree(data[1],data[0],visualizer.drawGraphWithMST,screen)
 
         pygame.display.flip()
     pygame.quit()
