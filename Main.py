@@ -28,6 +28,29 @@ def toggle_menu():
     global game
     game.toggle_menu()
 
+def main_menu():
+    global game
+    game.switch_menu(0)
+    game.esc_menu = False
+    global state
+    state = 'menu'
+
+def about():
+    global game
+    game.switch_menu(1)
+
+def secret():
+    global game
+    game.switch_menu(2)
+
+def esc_menu_1():
+    global game
+    game.switch_esc_menu(0)
+
+def esc_menu_2():
+    global game
+    game.switch_esc_menu(1)
+
 def input_file():
     global data, state, dsu, mst_edges, current_cost, sorted_edges
     data = flipper.skid()
@@ -38,6 +61,7 @@ def input_file():
         mst_edges = []
         current_cost = 0
         state = 'visualizing'
+        game.esc_menu = False
         reset_visualization()
 
 def reset_visualization():
@@ -53,6 +77,11 @@ Los_functionos_mappos = {
     "quit": quit,
     "toggle_esc_menu": toggle_overlay,
     "toggle_menu": toggle_menu,
+    "main_menu" : main_menu,
+    "about" : about,
+    "secret" : secret,
+    "esc1" : esc_menu_1,
+    "esc2" : esc_menu_2,
     "input_file": input_file,
     "back_to_menu": back_to_menu
 }
@@ -76,35 +105,39 @@ if __name__ == "__main__":
                 game.running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    game.esc_menu = not game.esc_menu
-                elif event.key == pygame.K_m and state == 'visualizing':
-                    state = 'menu'
-
-            if state == 'menu':
-                if game.esc_menu:
-                    game.esc_event_handling(event)
-                else:
+                    if state == 'menu':
+                        esc_menu_1()
+                        game.esc_menu = not game.esc_menu
+                    else:
+                        esc_menu_2()
+                        game.esc_menu = not game.esc_menu
+            if game.esc_menu:
+                game.esc_event_handling(event)
+                game.esc_update()
+                game.esc_draw(screen)
+            else:
+                if state == 'menu':
                     game.menu_event_handling(event)
 
-        if state == 'menu':
+        if state == 'menu' and game.esc_menu != True:
+            screen.fill((30, 144, 255))  # Dodger blue
+            game.update()
+            game.draw(screen)
+        elif state == 'visualizing':
             if game.esc_menu:
                 game.esc_update()
                 game.esc_draw(screen)
             else:
-                screen.fill((30, 144, 255))  # Dodger blue
-                game.update()
-                game.draw(screen)
-        elif state == 'visualizing':
-            if data and dsu:
-                current_time = pygame.time.get_ticks()
-                if current_time - last_step_time > step_delay and visualization_step < len(sorted_edges) and len(mst_edges) < data[1] - 1:
-                    edge = sorted_edges[visualization_step]
-                    current_cost, added = process_single_edge(edge, dsu, mst_edges, current_cost)
-                    visualization_step += 1
-                    last_step_time = current_time
+                if data and dsu:
+                    current_time = pygame.time.get_ticks()
+                    if current_time - last_step_time > step_delay and visualization_step < len(sorted_edges) and len(mst_edges) < data[1] - 1:
+                        edge = sorted_edges[visualization_step]
+                        current_cost, added = process_single_edge(edge, dsu, mst_edges, current_cost)
+                        visualization_step += 1
+                        last_step_time = current_time
 
-                screen.fill((240, 240, 240))
-                drawGraphWithMST(data[0], mst_edges, data[1], screen)
+                    screen.fill((30, 144, 255))
+                    drawGraphWithMST(data[0], mst_edges, data[1], screen)
 
         pygame.display.flip()
 
