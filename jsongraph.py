@@ -15,9 +15,6 @@ def readData(file_path : str) -> Tuple[Graph, int]:
             vertex_count = max(source+1, vertex_count)
             vertex_count = max(destination+1, vertex_count)
 
-        print(graph)
-        print(graph[0])
-        print(vertex_count)
         return graph, vertex_count
 
 if __name__ == "__main__":

@@ -1,12 +1,9 @@
-from typing import List, Tuple, Protocol
-import pygame as pg
+from typing import List, Tuple
+
 
 Edge = Tuple[int, int, int]  # (source, destination, weight)
 Graph = List[Edge]
 
-
-class Visualize(Protocol):
-    def __call__(self, graph: Graph, mst: Graph, vertex_count: int, surface: pg.Surface) -> None:...
 
 class DisjointSetUnion:
     def __init__(self, number_of_vertices: int) -> None:
@@ -68,14 +65,12 @@ def process_single_edge(
 
 def kruskal_minimum_spanning_tree(
     vertex_count: int,
-    edges: Graph,
-    callback : Visualize,
-    surface : pg.Surface
+    edges: Graph
 ) -> Tuple[int, Graph]:
     edges_sorted: Graph = sorted(edges, key=lambda e: e[2])
 
     dsu = DisjointSetUnion(vertex_count)
-    minimum_spanning_tree_edges: Graph = []
+    minimum_spanning_tree_edges: List[Edge] = []
     total_cost: int = 0
 
     for edge in edges_sorted:
@@ -83,10 +78,22 @@ def kruskal_minimum_spanning_tree(
             edge, dsu,minimum_spanning_tree_edges, total_cost
         )
 
-        callback(edges,minimum_spanning_tree_edges,vertex_count,surface)
+        # FOR RUNNING VISUALIZATION USE SAME FUNCTION AND INSERT VISUALIZATION HERE
 
         if len( minimum_spanning_tree_edges) == vertex_count - 1:
             break
 
     return total_cost,minimum_spanning_tree_edges
 
+if __name__ == "__main__":
+    edges: Graph = [
+    (0, 1, -3),
+    (1, 3, 15),
+    (2, 3, 4),
+    (2, 0, 6),
+    (0, 3, 5)
+]
+
+    cost, mst = kruskal_minimum_spanning_tree(4, edges)
+    print("MST cost:", cost)
+    print("Edges:", mst)
