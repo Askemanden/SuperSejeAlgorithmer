@@ -311,7 +311,15 @@ class Game():
         self.active_menu = self.active_menu + 1
         if self.active_menu > len(self.menus) - 1:
             self.active_menu = 0
+
+    def switch_menu(self, menu_index : int):
         
+        if not menu_index > len(self.menus) - 1 and menu_index > -1:
+            self.active_menu = menu_index
+    
+    def switch_esc_menu(self, esc_menu_index : int):
+        if not esc_menu_index > len(self.esc_menu_elements) - 1 and esc_menu_index > -1:
+            self.active_esc_menu = esc_menu_index
 
     def save_menu_layout(self, output : str = "saved_menu.json"):
         temp_menu_dict = {}

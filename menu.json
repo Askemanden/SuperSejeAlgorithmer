@@ -2,10 +2,10 @@
     "screen_boxes": [
         {
             "color_info": [
-                60,
-                243,
-                86,
-                120,
+                37,
+                68,
+                147,
+                160,
                 160,
                 180,
                 134,
@@ -14,28 +14,73 @@
             ],
             "placement_info": [
                 800,
-                200,
-                600,
                 300,
+                700,
+                400,
                 "center",
                 "center"
             ],
             "components": [
                 {
-                    "color_info": null,
-                    "visible": false,
+                    "color_info": [
+                        0,
+                        167,
+                        225,
+                        22,
+                        124,
+                        198,
+                        134,
+                        189,
+                        0
+                    ],
+                    "visible": true,
                     "placement_info": null,
                     "text": "overlay",
                     "text_size": 20,
                     "button_function_id": "toggle_esc_menu"
                 },
                 {
-                    "color_info": null,
-                    "visible": false,
+                    "color_info": [
+                        0,
+                        167,
+                        225,
+                        22,
+                        124,
+                        198,
+                        134,
+                        189,
+                        0
+                    ],
+                    "visible": true,
+                    "placement_info": [
+                        0,
+                        80,
+                        250,
+                        50,
+                        "center",
+                        "center"
+                    ],
+                    "text": "Indlæs json",
+                    "text_size": 20,
+                    "button_function_id": "input_file"
+                },
+                {
+                    "color_info": [
+                        0,
+                        167,
+                        225,
+                        22,
+                        124,
+                        198,
+                        134,
+                        189,
+                        0
+                    ],
+                    "visible": true,
                     "placement_info": null,
                     "text": "Primaterne bag programmet",
                     "text_size": 20,
-                    "button_function_id": "toggle_menu"
+                    "button_function_id": "about"
                 },
                 {
                     "color_info": null,
@@ -51,15 +96,30 @@
                     "text": "Kruskal-visualisator",
                     "text_size": 60,
                     "button_function_id": null
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": [
+                        0,
+                        100,
+                        140,
+                        0,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "a Slaske(inc) production",
+                    "text_size": 18,
+                    "button_function_id": null
                 }
             ]
         },
         {
             "color_info": [
-                60,
-                243,
-                86,
-                120,
+                37,
+                68,
+                147,
+                160,
                 160,
                 180,
                 134,
@@ -120,13 +180,13 @@
                     "visible": false,
                     "placement_info": [
                         0,
-                        270,
+                        250,
                         0,
                         0,
                         "center",
                         "Askeslaske"
                     ],
-                    "text": "Den skizofrene bag UI - Jacob",
+                    "text": "Den skizofrene bag UI - Jacob Fischer Bak",
                     "text_size": null,
                     "button_function_id": null
                 },
@@ -135,13 +195,13 @@
                     "visible": false,
                     "placement_info": [
                         0,
-                        300,
+                        280,
                         0,
                         0,
                         "center",
                         "Askeslaske"
                     ],
-                    "text": "Den lige så skizofrene bag Kruskal - Aske",
+                    "text": "Den lige så skizofrene bag Kruskal - Aske Vandsø Aremark",
                     "text_size": null,
                     "button_function_id": null
                 },
@@ -157,9 +217,85 @@
                     "color_info": null,
                     "visible": false,
                     "placement_info": null,
-                    "text": "skift",
+                    "text": "tilbage",
                     "text_size": 20,
-                    "button_function_id": "toggle_menu"
+                    "button_function_id": "main_menu"
+                },
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        0,
+                        80,
+                        100,
+                        "center",
+                        "center"
+                    ],
+                    "text": " ",
+                    "text_size": 20,
+                    "button_function_id": "secret"
+                }
+            ]
+        },
+        {
+            "color_info": [
+                37,
+                68,
+                147,
+                160,
+                160,
+                180,
+                134,
+                189,
+                0
+            ],
+            "placement_info": [
+                800,
+                300,
+                700,
+                400,
+                "center",
+                "center"
+            ],
+            "components": [
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        20,
+                        0,
+                        0,
+                        "center",
+                        "Askeslaske"
+                    ],
+                    "text": "Den hemmelige menu",
+                    "text_size": 50,
+                    "button_function_id": null
+                },
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        "center",
+                        "center"
+                    ],
+                    "text": "Hej Mark Moore! :)",
+                    "text_size": 40,
+                    "button_function_id": null
+                },
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": null,
+                    "text": "tilbage",
+                    "text_size": 20,
+                    "button_function_id": "main_menu"
                 }
             ]
         }
@@ -236,6 +372,86 @@
                     "button_function_id": null
                 }
             ]
+        },
+        {
+            "color_info": [
+                0,
+                102,
+                97,
+                16,
+                106,
+                34,
+                209,
+                173,
+                0
+            ],
+            "placement_info": [
+                800,
+                400,
+                600,
+                400,
+                "center",
+                "center"
+            ],
+            "components": [
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "luk",
+                    "text_size": 20,
+                    "button_function_id": "toggle_esc_menu"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Vælg ny fil",
+                    "text_size": 20,
+                    "button_function_id": "input_file"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Hovedmenu",
+                    "text_size": 20,
+                    "button_function_id": "main_menu"
+                },
+                {
+                    "color_info": null,
+                    "visible": true,
+                    "placement_info": null,
+                    "text": "Afslut",
+                    "text_size": 20,
+                    "button_function_id": "quit"
+                },
+                {
+                    "color_info": [
+                        255,
+                        255,
+                        255,
+                        130,
+                        130,
+                        130,
+                        100,
+                        50,
+                        50
+                    ],
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        -40,
+                        300,
+                        150,
+                        "center",
+                        "center"
+                    ],
+                    "text": "Menu",
+                    "text_size": 80,
+                    "button_function_id": null
+                }
+            ]
         }
     ],
     "hud": [
@@ -252,20 +468,43 @@
                 0
             ],
             "placement_info": [
-                120,
-                740,
+                150,
+                700,
                 200,
-                60,
+                130,
                 "Askeslaske",
                 "Askeslaske"
             ],
+            "border" : false,
             "components": [
                 {
                     "color_info": null,
                     "visible": false,
-                    "placement_info": null,
+                    "placement_info": [
+                        0,
+                        30,
+                        180,
+                        50,
+                        "center",
+                        "center"
+                    ],
+                    "text": "Afslut",
+                    "text_size": 30,
+                    "button_function_id": "quit"
+                },
+                {
+                    "color_info": null,
+                    "visible": false,
+                    "placement_info": [
+                        0,
+                        -30,
+                        180,
+                        50,
+                        "center",
+                        "center"
+                    ],
                     "text": "Indlæs json",
-                    "text_size": 20,
+                    "text_size": 30,
                     "button_function_id": "input_file"
                 }
             ]
